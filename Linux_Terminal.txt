@@ -1,0 +1,86 @@
+d@d-VirtualBox:~$ sudo su
+[sudo] пароль для d:
+root@d-VirtualBox:/home/d# ls
+ at_cont   GeekBrains   snap   Видео   Документы   Загрузки   Изображения   Музыка   Общедоступные  'Рабочий стол'   Шаблоны
+root@d-VirtualBox:/home/d# cd /GeekBrains
+bash: cd: /GeekBrains: Нет такого файла или каталога
+root@d-VirtualBox:/home/d# cd GeekBrains
+root@d-VirtualBox:/home/d/GeekBrains# ls
+Container
+root@d-VirtualBox:/home/d/GeekBrains# cd Container
+root@d-VirtualBox:/home/d/GeekBrains/Container# ls
+ Dockerfile   text.txt  'Вьючные животные.txt'  'Домашние животные.txt'
+root@d-VirtualBox:/home/d/GeekBrains/Container# cat 'Вьючные животные'.txt
+Лошадь
+Верблюд
+Осел
+root@d-VirtualBox:/home/d/GeekBrains/Container# cat 'Домашние животные'.txt
+Собака
+Кошка
+Хомяк
+root@d-VirtualBox:/home/d/GeekBrains/Container# cd ..
+root@d-VirtualBox:/home/d/GeekBrains# mkdir Finish_attest
+root@d-VirtualBox:/home/d/GeekBrains# ls
+Container  Finish_attest
+root@d-VirtualBox:/home/d/GeekBrains# mv
+root@d-VirtualBox:/home/d/GeekBrains# mv /home/d/GeekBrains/Container/'Вьючные животные'.txt /home/d/GeekBrains/Finish_attest
+root@d-VirtualBox:/home/d/GeekBrains# ls
+Container  Finish_attest
+root@d-VirtualBox:/home/d/GeekBrains# cd Finish_attest
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# ls
+'Вьючные животные.txt'
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# mv /home/d/GeekBrains/Container/'Домашние животные'.txt /home/d/GeekBrains/Finish_attest
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# ls
+'Вьючные животные.txt'  'Домашние животные.txt'
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# cat 'Вьючные животные.txt' 'Домашние животные.txt' >> 'Друзья человека'.txt
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# ls
+'Вьючные животные.txt'  'Домашние животные.txt'  'Друзья человека.txt'
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# cat 'Друзья человека'.txt
+Лошадь
+Верблюд
+Осел
+Собака
+Кошка
+Хомяк
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:8.0
+Unable to find image 'mysql:8.0' locally
+8.0: Pulling from library/mysql
+2c0a233485c3: Pull complete
+b746eccf8a0b: Pull complete
+570d30cf82c5: Pull complete
+c7d84c48f09d: Pull complete
+e9ecf1ccdd2a: Pull complete
+6331406986f7: Pull complete
+f93598758d10: Pull complete
+6c136cb242f2: Pull complete
+d255d476cd34: Pull complete
+dbfe60d9fe24: Pull complete
+9cb9659be67b: Pull complete
+Digest: sha256:d58ac93387f644e4e040c636b8f50494e78e5afc27ca0a87348b2f577da2b7ff
+Status: Downloaded newer image for mysql:8.0
+4ae2b3abf9d740bf3f2a2d60f0d9dd1b5981ad3bae05e65bf049d2430b5b364c
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# docker ps
+CONTAINER ID   IMAGE       COMMAND                  CREATED              STATUS          PORTS                 NAMES
+4ae2b3abf9d7   mysql:8.0   "docker-entrypoint.s…"   About a minute ago   Up 52 seconds   3306/tcp, 33060/tcp   some-mysql
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# docker exec -it some-mysql bash
+bash-5.1# mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.40 MySQL Community Server - GPL
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates. Other names may be trademarks of their respective owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++----------------------------------------+
+| Database          		 |
++----------------------------------------+
+| information_schema 		|
+| mysql              			|
+| performance_schema 	|
+| sys                			|
++----------------------------------------+
+4 rows in set (0.04 sec)
+
+mysql>
