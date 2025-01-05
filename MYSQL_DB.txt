@@ -1,0 +1,327 @@
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:8.0
+Unable to find image 'mysql:8.0' locally
+8.0: Pulling from library/mysql
+2c0a233485c3: Pull complete
+b746eccf8a0b: Pull complete
+570d30cf82c5: Pull complete
+c7d84c48f09d: Pull complete
+e9ecf1ccdd2a: Pull complete
+6331406986f7: Pull complete
+f93598758d10: Pull complete
+6c136cb242f2: Pull complete
+d255d476cd34: Pull complete
+dbfe60d9fe24: Pull complete
+9cb9659be67b: Pull complete
+Digest: sha256:d58ac93387f644e4e040c636b8f50494e78e5afc27ca0a87348b2f577da2b7ff
+Status: Downloaded newer image for mysql:8.0
+4ae2b3abf9d740bf3f2a2d60f0d9dd1b5981ad3bae05e65bf049d2430b5b364c
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# docker ps
+CONTAINER ID   IMAGE       COMMAND                  CREATED              STATUS          PORTS                 NAMES
+4ae2b3abf9d7   mysql:8.0   "docker-entrypoint.s…"   About a minute ago   Up 52 seconds   3306/tcp, 33060/tcp   some-mysql
+root@d-VirtualBox:/home/d/GeekBrains/Finish_attest# docker exec -it some-mysql bash
+bash-5.1# mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.40 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.04 sec)
+
+mysql> CREATE TABLE animals(
+    -> Id INT PRIMARY KEY AUTO_INCREMENT,
+    -> Class_name VARCHAR(20)
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> CREATE DATABASE FINISH_ATTEST
+    -> ^C
+mysql> CREATE DATABASE FINISH_ATTEST;
+Query OK, 1 row affected (0.07 sec)
+
+mysql> USE FINISH_ATTEST;
+Database changed
+mysql> CREATE TABLE animals( Id INT PRIMARY KEY AUTO_INCREMENT, Class_name VARCH                                                                AR(20) );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> INSERT INTO animal_classes (Class_name) VALUES
+    -> ('Home animals'),
+    -> ('Pack animals');
+ERROR 1146 (42S02): Table 'FINISH_ATTEST.animal_classes' doesn't exist
+mysql> INSERT INTO animals (Class_name) VALUES ('Home animals'), ('Pack animals'                                                                );
+Query OK, 2 rows affected (0.06 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROME animals;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that                                                                 corresponds to your MySQL server version for the right syntax to use near 'FROME                                                                 animals' at line 1
+mysql> SELECT * FROM animals;
++----+--------------+
+| Id | Class_name   |
++----+--------------+
+|  1 | Home animals |
+|  2 | Pack animals |
++----+--------------+
+2 rows in set (0.01 sec)
+
+mysql> CREATE TABLE packed_animals
+    -> (
+    -> Id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     Genus_name VARCHAR (20),
+    ->     Class_id INT,
+    ->     FOREIGN KEY (Class_id) REFERENCES animal_classes (Id) ON DELETE CASCA                                                                DE ON UPDATE CASCADE
+    ->
+    -> ^C
+mysql> CREATE TABLE Pack_animals(
+    -> Id INT PRIMARY KEY AUTO_INCREMENT,
+    -> Genus_name VARCHAR (20),
+    -> Class_id INT,
+    -> FOREIGN KEY (Class_id) REFERENCES animals (Id) ON DELETE CASCADE ON UPDAT                                                                E CASCADE
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+
+mysql> CREATE TABLE Pack animals(
+    -> Id INT PRIMARY KEY AUTO_INCREMENT,
+    -> Genus_name VARCHAR (20),
+    -> Class_id INT,^C
+mysql> INSERT INTO Pack_animals (Genus_name, Class_id) VALUES
+    -> ('hourses', 1),
+    -> ('donkeys', 1),
+    -> ('camels', 1);
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Pack_animals;
++----+------------+----------+
+| Id | Genus_name | Class_id |
++----+------------+----------+
+|  1 | hourses    |        1 |
+|  2 | donkeys    |        1 |
+|  3 | camels     |        1 |
++----+------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Pack animals;
+ERROR 1146 (42S02): Table 'FINISH_ATTEST.Pack' doesn't exist
+mysql> CREATE TABLE Home_animals
+    -> ^C
+mysql> CREATE TABLE Home_animals(
+    -> Id INT PRIMARY KEY AUTO_INCREMENT,
+    -> Genus_name VARCHAR (20),
+    -> Class_id INT,
+    -> FOREIGN KEY (Class_id) REFERENCES animals (Id) ON DELETE CASCADE ON UPDAT                                                                E CASCADE
+    -> );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> INSERT INTO Home_animals (Genus_name, Class_id) VALUES
+    -> ('Cats', 2),
+    -> ('Dogs', 2),
+    -> ('Hamsters', 2);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Cats(
+    -> Id INT PRIMARY KEY AUTO_INCREMENT,
+    -> Name VARCHAR(20),
+    -> Birthday DATE,
+    -> Commands VARCHAR(50),
+    -> Genus_id int,
+    -> Foreign KEY (Genus_id) REFERENCES Home_animals (Id) ON DELETE CASCADE ON                                                                 UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> INSERT INTO cats (Name, Birthday, Commands, Genus_id) VALUES
+    -> ('Senya', '2011-01-01', 'lie', 1),
+    -> ('Tema', '2016-01-01', 'sit', 1),
+    -> ('Marta', '2017-01-01', 'run', 1);
+ERROR 1146 (42S02): Table 'FINISH_ATTEST.cats' doesn't exist
+mysql> INSERT INTO Cats (Name, Birthday, Commands, Genus_id) VALUES ('Senya', '2                                                                011-01-01', 'lie', 1), ('Tema', '2016-01-01', 'sit', 1), ('Marta', '2017-01-01',                                                                 'run', 1);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Dogs(
+    -> Id INT PRIMARY KEY AUTO_INCREMENT,
+    -> Name VARCHAR(20),
+    -> Birthday DATE,
+    -> Commands VARCHAR(50),
+    -> Genus_id int,
+    -> Foreign KEY (Genus_id) REFERENCES Home_animals (Id) ON DELETE CASCADE ON                                                                 UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> INSERT INTO Dogs (Name, Birthday, Commands, Genus_id) VALUES
+    -> ('Jack', '2020-01-01', 'voice', 2),
+    -> ('Bob', '2021-06-12', 'paw', 2),
+    -> ('Boss', '2018-05-01', 'sit', 2);
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Hamsters(
+    -> Id INT PRIMARY KEY AUTO_INCREMENT,
+    -> Name VARCHAR(20),
+    -> Birthday DATE,
+    -> Commands VARCHAR(50),
+    -> Genus_id int,
+    -> Foreign KEY (Genus_id) REFERENCES Home_animals (Id) ON DELETE CASCADE ON                                                                 UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> INSERT INTO Hamsters (Name, Birthday, Commands, Genus_id) VALUES
+    -> ('Homa', '2020-10-12', 'null', 3),
+    -> ('Homachiha', '2021-03-12', 'null', 3),
+    -> ('Gosha', '2022-05-10', 'null', 3);
+Query OK, 3 rows affected (0.06 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Horses(
+    -> Id INT PRIMARY KEY AUTO_INCREMENT,
+    -> Name VARCHAR(20),
+    -> Birthday DATE,
+    -> Commands VARCHAR(50),
+    -> Genus_id int,
+    -> Foreign KEY (Genus_id) REFERENCES Pack_animals (Id) ON DELETE CASCADE ON                                                                 UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> INSERT INTO Horses (Name, Birthday, Commands, Genus_id) VALUES
+    -> ('Grom', '2020-01-12', 'run, step', 1),
+    -> ('Molnia', '2017-03-12', 'run, step, gallop', 1),
+    -> ('Skoryi', '2020-11-10', 'run, step, gallop', 1);
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Donkeys(
+    -> Id INT PRIMARY KEY AUTO_INCREMENT,
+    -> Name VARCHAR(20),
+    -> Birthday DATE,
+    -> Commands VARCHAR(50),
+    -> Genus_id int,
+    -> Foreign KEY (Genus_id) REFERENCES Pack_animals (Id) ON DELETE CASCADE ON                                                                 UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> INSERT INTO Donkeys (Name, Birthday, Commands, Genus_id) VALUES
+    -> ('Vasya', '2019-04-10', 'null', 2),
+    -> ('Tosha', '2020-03-12', 'null', 2),
+    -> ('Gena', '2021-07-12', 'null', 2);
+Query OK, 3 rows affected (0.06 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Camels(
+    -> Id INT PRIMARY KEY AUTO_INCREMENT,
+    -> Name VARCHAR(20),
+    -> Birthday DATE,
+    -> Commands VARCHAR(50),
+    -> Genus_id int,
+    -> Foreign KEY (Genus_id) REFERENCES Pack_animals (Id) ON DELETE CASCADE ON                                                                 UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO camels (Name, Birthday, Commands, Genus_id) VALUES
+    -> ('Gorbatyi', '2022-04-10', 'bend over', 3),
+    -> ('Sifon', '2019-03-12', 'stop', 3),
+    -> ('Titan', '2015-07-12', 'turn around', 3);
+ERROR 1146 (42S02): Table 'FINISH_ATTEST.camels' doesn't exist
+mysql> INSERT INTO Camels (Name, Birthday, Commands, Genus_id) VALUES
+    -> ('Gorbatyi', '2022-04-10', 'bend over', 3),
+    -> ('Sifon', '2019-03-12', 'stop', 3),
+    -> ('Titan', '2015-07-12', 'turn around', 3);
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Pack_animals;
++----+------------+----------+
+| Id | Genus_name | Class_id |
++----+------------+----------+
+|  1 | hourses    |        1 |
+|  2 | donkeys    |        1 |
+|  3 | camels     |        1 |
++----+------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Home_animals;
++----+------------+----------+
+| Id | Genus_name | Class_id |
++----+------------+----------+
+|  1 | Cats       |        2 |
+|  2 | Dogs       |        2 |
+|  3 | Hamsters   |        2 |
++----+------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Cats;
++----+-------+------------+----------+----------+
+| Id | Name  | Birthday   | Commands | Genus_id |
++----+-------+------------+----------+----------+
+|  1 | Senya | 2011-01-01 | lie      |        1 |
+|  2 | Tema  | 2016-01-01 | sit      |        1 |
+|  3 | Marta | 2017-01-01 | run      |        1 |
++----+-------+------------+----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Dogs;
++----+------+------------+----------+----------+
+| Id | Name | Birthday   | Commands | Genus_id |
++----+------+------------+----------+----------+
+|  1 | Jack | 2020-01-01 | voice    |        2 |
+|  2 | Bob  | 2021-06-12 | paw      |        2 |
+|  3 | Boss | 2018-05-01 | sit      |        2 |
++----+------+------------+----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Hamsters;
++----+-----------+------------+----------+----------+
+| Id | Name      | Birthday   | Commands | Genus_id |
++----+-----------+------------+----------+----------+
+|  1 | Homa      | 2020-10-12 | null     |        3 |
+|  2 | Homachiha | 2021-03-12 | null     |        3 |
+|  3 | Gosha     | 2022-05-10 | null     |        3 |
++----+-----------+------------+----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Horses;
++----+--------+------------+-------------------+----------+
+| Id | Name   | Birthday   | Commands          | Genus_id |
++----+--------+------------+-------------------+----------+
+|  1 | Grom   | 2020-01-12 | run, step         |        1 |
+|  2 | Molnia | 2017-03-12 | run, step, gallop |        1 |
+|  3 | Skoryi | 2020-11-10 | run, step, gallop |        1 |
++----+--------+------------+-------------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Donkeys;
++----+-------+------------+----------+----------+
+| Id | Name  | Birthday   | Commands | Genus_id |
++----+-------+------------+----------+----------+
+|  1 | Vasya | 2019-04-10 | null     |        2 |
+|  2 | Tosha | 2020-03-12 | null     |        2 |
+|  3 | Gena  | 2021-07-12 | null     |        2 |
++----+-------+------------+----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Camels;
++----+----------+------------+-------------+----------+
+| Id | Name     | Birthday   | Commands    | Genus_id |
++----+----------+------------+-------------+----------+
+|  1 | Gorbatyi | 2022-04-10 | bend over   |        3 |
+|  2 | Sifon    | 2019-03-12 | stop        |        3 |
+|  3 | Titan    | 2015-07-12 | turn around |        3 |
++----+----------+------------+-------------+----------+
+3 rows in set (0.01 sec)
+
+mysql>
