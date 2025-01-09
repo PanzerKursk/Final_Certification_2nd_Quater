@@ -45,7 +45,7 @@ public class Animals {
         return commands;
     }
 
-    public void setCommands(String command) {
+    public void addCommands(String command) {
         this.commands.add(command);
     }
 
